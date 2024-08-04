@@ -10,11 +10,11 @@ def home_page_view(request, *args, **kwargs):
     qs = PageVisit.objects.all()
     page_ps = PageVisit.objects.filter(path=request.path)
     my_title = "Home"
+    html_tamplate = "home.html"
     my_context = {
         "page_title": my_title,
         "queryset_count": page_ps.count(),
         'total_visit_count': qs.count()
     }
-    html_tamplate = "home.html"
     PageVisit.objects.create(path=request.path)
     return render(request, html_tamplate, my_context)
