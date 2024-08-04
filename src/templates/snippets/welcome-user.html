@@ -1,0 +1,9 @@
+
+
+<div class>
+    {% if request.user.is_authenticated %}
+    Hello user
+    {% else %}
+    Hello guest, do you want to sign up and login ?
+    {% endif %}
+</div>
