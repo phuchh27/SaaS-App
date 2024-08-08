@@ -10,22 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-import os
+# import os
+from decouple import config
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print("BASE_DIR", BASE_DIR)
+# print("BASE_DIR", BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xwt(fiptxgmsvyq5+29-a8ao^-rtrpw-vf)pcl(@-mx@dgblo)'
+SECRET_KEY = config("DJANGO_SECRET_KEY", default=None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.environ.get("DJANGO_DEBUG")).lower() == 'true' 
-
+# DEBUG = str(os.environ.get("DJANGO_DEBUG")).lower() == 'true'
+DEBUG = config("DJANGO_DEBUG", cast=bool)
 print("DEBUG: ", DEBUG, type(DEBUG))
 
 ALLOWED_HOSTS = [
@@ -92,6 +94,18 @@ DATABASES = {
     }
 }
 
+CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int, default=30)
+
+DATABASES_URL = config("DATABASE_URL", cast=str)
+
+if DATABASES_URL is not None:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASES_URL,
+                                          conn_max_age=CONN_MAX_AGE,
+                                          conn_health_checks=True)
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -128,6 +142,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
+
+# source(s) for python mânge.py collectsatic
+STATICFILES_DIRS = [
+    STATICFILES_BASE_DIR
+]
+
+# output for pyhton manage.py collectstatic
+# local cdn
+
+STATIC_ROOT = BASE_DIR / "local-cdn"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
