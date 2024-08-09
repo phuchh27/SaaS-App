@@ -42,6 +42,8 @@ COPY ./src /code
 
 # Install the Python project requirements
 RUN pip install -r /tmp/requirements.txt
+ARG DJANGO_SECRET_KEY
+ENV DJANGO_SECRET_KEY =${DJANGO_SECRET_KEY}
 RUN pip install gunicorn
 
 # database isn't available during build
