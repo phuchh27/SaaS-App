@@ -2,7 +2,7 @@
 
 <div class>
     {% if request.user.is_authenticated %}
-    Hello user
+    Hello user: {{request.user.username}}
     {% else %}
     Hello guest, do you want to sign up and login ?
     {% endif %}

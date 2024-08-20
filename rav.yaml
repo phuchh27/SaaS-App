@@ -1,6 +1,6 @@
 scripts:
   server:
-    - cd src && python manage.py runserver 8001
+    - cd src && python manage.py runserver 8000
   m-migra:
     - cd src && python manage.py makemigrations
   migra:

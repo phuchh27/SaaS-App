@@ -1,0 +1,27 @@
+
+{% if messages %}
+<div id="messages-container">
+    {% for message in messages %}
+    <div
+        class="flex align-items-center px-4 py-3 text-sm font-bold text-white bg-blue-500"
+        role="alert">
+        <p>{{message}}</p>
+    </div>
+    {% endfor %}
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(function() {
+        var messagesContainer = document.getElementById('messages-container');
+        if (messagesContainer) {
+          messagesContainer.style.transition = "opacity 0.5s ease";
+          messagesContainer.style.opacity = 0;
+          setTimeout(function() {
+            messagesContainer.remove();
+          }, 500);
+        }
+      }, 5000);
+    });
+  </script>
+{% endif %}
