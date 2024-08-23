@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'commando',
     'profiles',
     'subscriptions',
+    'customers',
     # 'auth'
     # third party app
     'allauth_ui',
